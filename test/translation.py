@@ -30,7 +30,7 @@ print(vars(train[0]))
 print(vars(train[100]))
 
 DE.build_vocab(train.src, min_freq=3)
-EN.build_vocab(train.trg, max_size=50000)
+EN.build_vocab(train.tgt, max_size=50000)
 
 train_iter, val_iter = data.BucketIterator.splits(
     (train, val), batch_size=3)
@@ -42,7 +42,7 @@ print(len(EN.vocab))
 
 batch = next(iter(train_iter))
 print(batch.src)
-print(batch.trg)
+print(batch.tgt)
 
 
 # Testing Multi30k
@@ -57,7 +57,7 @@ print(vars(train[0]))
 print(vars(train[100]))
 
 DE.build_vocab(train.src, min_freq=3)
-EN.build_vocab(train.trg, max_size=50000)
+EN.build_vocab(train.tgt, max_size=50000)
 
 train_iter, val_iter = data.BucketIterator.splits(
     (train, val), batch_size=3)
@@ -69,7 +69,7 @@ print(len(EN.vocab))
 
 batch = next(iter(train_iter))
 print(batch.src)
-print(batch.trg)
+print(batch.tgt)
 
 
 # Testing custom paths
@@ -87,7 +87,7 @@ print(vars(train[0]))
 print(vars(train[100]))
 
 DE.build_vocab(train.src, min_freq=3)
-EN.build_vocab(train.trg, max_size=50000)
+EN.build_vocab(train.tgt, max_size=50000)
 
 train_iter, val_iter = data.BucketIterator.splits(
     (train, val), batch_size=3)
@@ -99,4 +99,4 @@ print(len(EN.vocab))
 
 batch = next(iter(train_iter))
 print(batch.src)
-print(batch.trg)
+print(batch.tgt)
