@@ -18,13 +18,16 @@ class Batch(object):
         """Create a Batch from a list of examples."""
         if data is not None:
             self.batch_size = len(data)
+            self.data = data
             self.dataset = dataset
             self.fields = dataset.fields.keys()  # copy field names
 
             for (name, field) in dataset.fields.items():
                 if field is not None:
                     batch = [getattr(x, name) for x in data]
+                    lengths = [len(getattr(x, name)) for x in data]
                     setattr(self, name, field.process(batch, device=device))
+                    setattr(self, name + "_lengths", lengths)
 
     @classmethod
     def fromvars(cls, dataset, batch_size, train=None, **kwargs):
