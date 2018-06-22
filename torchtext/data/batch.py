@@ -25,9 +25,7 @@ class Batch(object):
             for (name, field) in dataset.fields.items():
                 if field is not None:
                     batch = [getattr(x, name) for x in data]
-                    lengths = [len(getattr(x, name)) for x in data]
                     setattr(self, name, field.process(batch, device=device))
-                    setattr(self, name + "_lengths", lengths)
 
     @classmethod
     def fromvars(cls, dataset, batch_size, train=None, **kwargs):
