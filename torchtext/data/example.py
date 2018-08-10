@@ -14,6 +14,28 @@ class Example(object):
         return cls.fromdict(json.loads(data), fields)
 
     @classmethod
+    def fromJSONList(cls, data, fields):
+        return cls.fromlistdict(json.loads(data), fields)
+
+    @classmethod
+    def fromlistdict(cls, data, fields):
+        exs = []
+        for x in data:
+            ex = cls()
+            for key, vals in fields.items():
+                if key not in x:
+                    raise ValueError("Specified key {} was not found in "
+                                     "the input data".format(key))
+                if vals is not None:
+                    if not isinstance(vals, list):
+                        vals = [vals]
+                    for val in vals:
+                        name, field = val
+                        setattr(ex, name, field.preprocess(x[key]))
+            exs.append(ex)
+        return exs
+
+    @classmethod
     def fromdict(cls, data, fields):
         ex = cls()
         for key, vals in fields.items():

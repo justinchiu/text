@@ -247,6 +247,8 @@ class TabularDataset(Dataset):
         make_example = {
             'json': Example.fromJSON, 'dict': Example.fromdict,
             'tsv': Example.fromCSV, 'csv': Example.fromCSV}[format]
+            'jsonlist': Example.fromJSONList,
+            'tsv': Example.fromCSV, 'csv': Example.fromCSV}[format.lower()]
 
         with io.open(os.path.expanduser(path), encoding="utf8") as f:
             if format == 'csv':
@@ -267,8 +269,10 @@ class TabularDataset(Dataset):
 
             if skip_header:
                 next(reader)
-
-            examples = [make_example(line, fields) for line in reader]
+            if format == "jsonlist":
+                examples = make_example(reader.read(), fields)
+            else:
+                examples = [make_example(line, fields) for line in reader]
 
         if isinstance(fields, dict):
             fields, field_dict = [], fields
